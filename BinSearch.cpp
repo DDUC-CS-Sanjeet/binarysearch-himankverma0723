@@ -4,80 +4,79 @@ using namespace std;
 
 bool binarySearchReacursive(int* array, int startIndex, int lastIndex, int element)
 {
-	int mid=(startIndex+lastIndex)/2;
-	
-	if(array[mid]==element)
-		return true;
-	if(element>array[mid])
+   int mid=(startIndex+lastIndex)/2;
+    if (startIndex>lastIndex)
 	{
-		return search_recursion(array,mid,lastIndex,element);
-	}
-	else if(element<array[mid])
+        return false;
+    } 
+	else if(element>array[mid])
 	{
-		return binarySearchReacursive(array,startIndex,mid,element);
-	}
-  return false;
+       binarySearchReacursive(array,mid+1,lastIndex,element);
+    }
+    else if(array[mid]==element)
+	{
+        return true;
+    } 
+	else 
+	{
+       binarySearchReacursive(array,startIndex,mid-1,element);
+    }
+   
+
 }
 
 bool binarySearchIterative(int* array, int startIndex, int lastIndex, int element)
 {
-        while(true)
-        {
-         
-        int mid=(startIndex+lastIndex)/2;
-          if(element<array[mid])
-          {
-              lastIndex=mid;
-          }
-          else if(element>array[mid])
-          {
-              startIndex=mid;
-          }
-         
-          }
-            else if(element==array[mid])
-            {
-                return true;
-                break;
-            }
-        
-        }
-    
-  return false;
+	int middle=(startIndex+lastIndex)/2;
+   while(startIndex<=lastIndex)
+   {
+      if(array[middle]<element)
+        startIndex=middle+1;
+      else if (array[middle]==element)
+      {
+        return true;;
+      }
+      else
+         lastIndex=middle-1;
+      middle=(startIndex+lastIndex)/2;
+   }
+   if (startIndex>lastIndex)
+   {
+   	return false;
+   }
 }
 
 int main()
 {
-	int n,choice,x;
-	cout<<"Enter th size of the array ";
-	cin>>n;
-	int ar[n];
-	cout<<"enter the element of the array "
-	for(int i=0;i<n;i++)
-	{
-		cin>>ar[i];
-	}
+     int n;
+     cout<<"enter the size of array\n";
+     cin>>n;
+     int arr[n];
+     cout<<"enter elements of array\n";
+     for(int i=0;i<n;i++)
+     {
+     	cin>>arr[i];
+	 }
+	 int first=0,last=(n-1),search;
+	 cout<<"enter element to search\n";
+     cin>>search;
+     sort(arr,arr+n);
+     if(binarySearchReacursive(arr,first,last,search))
+     {
+     	cout<<"element found using reacursive function\n";
+	 }
+	 else
+	 {
+	 	cout<<"element not found \n";
+	 }
+     if(binarySearchIterative(arr,first,last,search))
+     {
+     	cout<<"element found using iterative function \n";
+	 }
+	 else
+	 {
+	 	cout<<"element not found\n";
+	 }
 
-	sort(ar,arr+size);
-	
-	cout<<"enter 1 for binarysearch by recursion ";
-	cout<<"\n enter 2 for binarysearch by iteration";
-	cout<<"\n enter your choice ";
-	cin<<choice;
-	cout<<"\nenter the no. to be search";
-	cin<<x;
-	switch(choice)
-	{
-		case 1:
-			cout<<binarySearchReacursive(&ar,0,size,x);
-			break;
-		
-		case 2:
-		cout<<binarySearchIterative(&ar,0,size,x);
-		break;
-			
-		default :
-			cout<<"invalid choice";
-			
-	}
-
+  return 0;
+}
